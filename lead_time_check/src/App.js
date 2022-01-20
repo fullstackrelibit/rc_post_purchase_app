@@ -10,24 +10,40 @@ import {
   TextContainer,
   View,
 } from '@shopify/post-purchase-ui-extensions-react';
+import { useState } from 'react';
 
-import checkLineItemsleadTime from './Utils/checkLineItemsLeadTime';
+import {getLeadTimeVariantsOnThankYou} from './Utils/checkLineItemsLeadTime';
 
 export default function App() {
   const {extensionPoint, storage, inputData} = useExtensionInput();
+  let [showUpdatedLeadTime, setshowUpdatedLeadTime] = useState(false);
 
   // useful informations
   let {customerId, lineItems, referenceId} = inputData.initialPurchase;
   // console.log(customerId, lineItems, referenceId, "customerId, lineItems, referenceId")
-  // checkLineItemsleadTime(lineItems)
+
+  // Getting lead time from API and if it is true then show lead message
+  if( referenceId ) {
+    getLeadTimeVariantsOnThankYou(referenceId)
+    .then((res) => {
+      console.log(res, "API Response")
+    })
+    .catch((error) => {
+      console.log(error, "Error")
+    })
+  }
+  else {
+    alert("No referenceId")
+  }
 
   const initialState = storage.initialData;
+
   return (
     <>
       <BlockStack spacing="loose">
-        <CalloutBanner title="Order Confirmed">
+        {/*<CalloutBanner title="Order Confirmed">
           Thanks for shopping with us!!
-        </CalloutBanner>
+        </CalloutBanner>*/}
         <Layout
           maxInlineSize={0.95}
           media={[
@@ -40,7 +56,19 @@ export default function App() {
             <TextBlock></TextBlock>
             <TextBlock>Right now I need an API to check lead time change of items in your order</TextBlock>
             <TextBlock>{JSON.stringify(lineItems)}</TextBlock>
+            {/*<BlockStack spacing="xloose">
+              <Button
+                submit
+                onPress={() => {
+                  // eslint-disable-next-line no-console
+                  console.log(`Extension point ${extensionPoint}`, initialState);
+                }}
+              >
+                Primary button
+              </Button>
+              </BlockStack>*/}
           </TextContainer>
+
         {/*<View>
           <Image source="https://cdn.shopify.com/static/images/examples/img-placeholder-1120x1120.png" />
         </View>
