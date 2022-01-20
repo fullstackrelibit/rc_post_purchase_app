@@ -1,0 +1,30 @@
+<span style="color: {{ block.settings.color }}">
+App blocks let you build powerful integrations with online store themes!
+</span>
+
+Hello I am App Block liquid
+
+{% schema %}
+  {
+    "name": "Hello World",
+    "target": "section",
+    "stylesheet": "app-block.css",
+    "javascript": "app-block.js",
+    "class": "kest",
+    "tag": "article",
+    "settings": [
+        {
+          "label": "Color",
+          "id": "color",
+          "type": "color",
+          "default": "#000000"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product",
+          "autofill": true
+        }
+    ]
+  }
+{% endschema %}
