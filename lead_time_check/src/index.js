@@ -15,22 +15,9 @@ import {
 import App from './App';
 
 extend('Checkout::PostPurchase::ShouldRender', async ({storage}) => {
-  console.log(storage, "storageee")
-  const initialState = await getRenderData();
-  const render = true;
-  if (render) {
-    // Saves initial state, provided to `Render` via `storage.initialData`
-    await storage.update(initialState);
-  }
   return {
     render,
   };
 });
-
-async function getRenderData() {
-  return {
-    couldBe: 'anything',
-  };
-}
 
 render('Checkout::PostPurchase::Render', () => <App />);
