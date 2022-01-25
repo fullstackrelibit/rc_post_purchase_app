@@ -11,13 +11,12 @@ import {
   View,
   Tiles
 } from '@shopify/post-purchase-ui-extensions-react';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {getLeadTimeVariantsOnThankYou} from './Utils/checkLineItemsLeadTime';
 
 export default function App() {
-  const {extensionPoint, storage, inputData} = useExtensionInput();
+  const {extensionPoint, storage, done, inputData} = useExtensionInput();
 
   // Default state data
   let [leadTimeData, setLeadTimeData] = useState(false);
@@ -33,6 +32,9 @@ export default function App() {
       getLeadTimeVariantsOnThankYou("7390601a37c4bf6850eb144ed4c3474e", (response) => {
         if( response.status ) {
           setLeadTimeData( response.data )
+        }
+        else {
+          done();
         }
       })
     }
